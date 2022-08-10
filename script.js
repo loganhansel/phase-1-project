@@ -1,4 +1,5 @@
-document.querySelector("search-form").addEventListener('submit', fetchAuthors())
+document.getElementById("search-form").addEventListener('submit', fetchAuthors)
+
 
 function fetchAuthors(event) {
     event.preventDefault()
@@ -8,5 +9,5 @@ function fetchAuthors(event) {
 }
 
 function appendAuthors(authors) {
-    
+
 }
