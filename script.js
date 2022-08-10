@@ -27,12 +27,16 @@ function appendAuthors(authorData) {
         authorItem.appendChild(authorName)
     switch (authorData["birth_date"]) {
         case undefined:
+            if (authorData["death_date"] === true) {
+                let authorBirthdate = document.createElement('p')
+                authorBirthdate.innerText = `Died: ${authorData["death_date"]}`
+            }
             break;
         default:
             let authorBirthdate = document.createElement('p')
             switch (authorData["death_date"]) {
             case undefined:
-                authorBirthdate.innerText = `${authorData["birth_date"]}`
+                authorBirthdate.innerText = `Born: ${authorData["birth_date"]}`
                 authorItem.appendChild(authorBirthdate)
                 break;
             default:
@@ -41,11 +45,17 @@ function appendAuthors(authorData) {
             }
         }
     let authorWorksCount = document.createElement('p')
+    switch (authorData["work_count"]) {
+        case 0:
+            authorWorksCount.innerText = `${authorData["work_count"]} books`
+            authorItem.appendChild(authorWorksCount)
+            break
+        default:
         authorWorksCount.innerText = `${authorData["work_count"]} books, including: ${authorData["top_work"]}`
         authorItem.appendChild(authorWorksCount)
+    }
     document.getElementById("search-results").appendChild(authorItem)
 }
-
 
 
 // CONVERTS USER SEARCH INTO QUERY STRING
