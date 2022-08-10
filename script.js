@@ -7,14 +7,21 @@ document.getElementById("search-form").addEventListener('submit', fetchAuthors)
 function fetchAuthors(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
-    let queryString = parseName(event.target.name.value)
-    fetch(`https://openlibrary.org/search/authors.json?q=${queryString}`)
+    fetch(`https://openlibrary.org/search/authors.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
         let authorData = data["docs"]
         authorData.forEach(element => appendAuthors(element))
     })
     document.getElementById("search-form").reset()
+}
+
+
+
+// CONVERTS USER SEARCH INTO QUERY STRING
+function parseName(name) {
+    let parsedName = encodeURIComponent(name)
+    return parsedName
 }
 
 
@@ -54,12 +61,25 @@ function appendAuthors(authorData) {
         authorWorksCount.innerText = `${authorData["work_count"]} books, including: ${authorData["top_work"]}`
         authorItem.appendChild(authorWorksCount)
     }
+    authorItem.authorKey = authorData["key"]
+    authorItem.addEventListener('click', findAuthorPage)
     document.getElementById("search-results").appendChild(authorItem)
 }
 
 
-// CONVERTS USER SEARCH INTO QUERY STRING
-function parseName(name) {
-    let parsedName = encodeURIComponent(name)
-    return parsedName
+
+// FETCH AUTHOR PAGE FOR LIST 'CLICK' EVENT
+function findAuthorPage(event) {
+    event.preventDefault()
+    document.getElementById("search-results").innerHTML = ""
+    fetch(`https://openlibrary.org/authors/${event.currentTarget.authorKey}.json`)
+    .then(response => response.json())
+    .then(data => appendAuthorPage(data))
+}
+
+
+
+// APPENDS AUTHOR DATA TO WEBPAGE
+function appendAuthorPage(author) {
+    console.log(author)
 }
