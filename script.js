@@ -25,6 +25,9 @@ function appendAuthors(authorData) {
     let authorName = document.createElement('h3')
         authorName.innerText = authorData["name"]
         authorItem.appendChild(authorName)
+    let authorWorks = document.createElement('p')
+        authorWorks.innerText = `Number of works: ${authorData["work_count"]}`
+        authorItem.appendChild(authorWorks)
     document.getElementById("search-results").appendChild(authorItem)
 }
 
