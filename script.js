@@ -25,6 +25,21 @@ function appendAuthors(authorData) {
     let authorName = document.createElement('h3')
         authorName.innerText = authorData["name"]
         authorItem.appendChild(authorName)
+    switch (authorData["birth_date"]) {
+        case undefined:
+            break;
+        default:
+            let authorBirthdate = document.createElement('p')
+            switch (authorData["death_date"]) {
+            case undefined:
+                authorBirthdate.innerText = `${authorData["birth_date"]}`
+                authorItem.appendChild(authorBirthdate)
+                break;
+            default:
+                authorBirthdate.innerText = `${authorData["birth_date"]} - ${authorData["death_date"]}`
+                authorItem.appendChild(authorBirthdate)
+            }
+        }
     let authorWorksCount = document.createElement('p')
         authorWorksCount.innerText = `${authorData["work_count"]} books, including: ${authorData["top_work"]}`
         authorItem.appendChild(authorWorksCount)
