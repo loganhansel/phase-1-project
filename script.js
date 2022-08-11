@@ -134,11 +134,32 @@ function fetchAuthorBooks(event) {
     })
 }
 
+
+
 // When books are fetched from the API, this appends them to a list
 function appendBookData(book) {
     let bookItem = document.createElement('li')
     let bookName = document.createElement('h2')
         bookName.innerText = book["title"]
         bookItem.appendChild(bookName)
+    bookItem.bookId = book["key"]
+    bookItem.addEventListener('click', fetchBook)
     document.getElementById("search-results").appendChild(bookItem)
+}
+
+
+
+// When a specific book is chosen from the list, will fetch it's data from the API
+function fetchBook(event) {
+    event.preventDefault()
+    document.getElementById("search-results").innerHTML = ""
+    document.getElementById("author-display").innerHTML = ""
+    fetch(`https://openlibrary.org${event.currentTarget.bookId}.json`)
+    .then(response => response.json())
+    .then(data => appendBook(data))
+}
+
+// Once a book's data has been fetched, this will append all it's details to the webpage
+function appendBook(book) {
+    console.log(book)
 }
