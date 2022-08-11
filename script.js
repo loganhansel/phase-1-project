@@ -113,4 +113,15 @@ function appendAuthorPage(author) {
             authorBio.innerText = author["bio"]
             document.getElementById("author-display").appendChild(authorBio)
     }
+    let booksList = document.createElement('button')
+        booksList.innerText = 'Books'
+        booksList.addEventListener('click', fetchAuthorBooks)
+        document.getElementById("author-display").appendChild(booksList)
+}
+
+
+
+// FETCH BOOKS
+function fetchAuthorBooks() {
+
 }
