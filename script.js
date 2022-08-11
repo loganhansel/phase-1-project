@@ -19,7 +19,6 @@ function fetchBooks(event) {
     fetch(`https://openlibrary.org/search.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
-        console.log(data)
         data["docs"].forEach(book => appendBookData(book))
     })
     document.getElementById("search-form").reset()
@@ -35,7 +34,6 @@ function fetchAuthors(event) {
     fetch(`https://openlibrary.org/search/authors.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
-        console.log(data)
         data["docs"].forEach(element => appendAuthors(element))
     })
     document.getElementById("search-form").reset()
@@ -109,10 +107,15 @@ function findAuthorPage(event) {
 
 // When specific author data is fetched from API, this appends the author's profile to the webpage
 function appendAuthorPage(author) {
-    document.getElementById("author-display").innerHTML = ""
+    console.log(author)
+    let authorDiv = document.getElementById("author-display")
+    authorDiv.innerHTML = ""
+    let authorImage = document.createElement("img")
+        authorImage.src = `https://covers.openlibrary.org/a/olid/${author["key"].slice(9)}-L.jpg`
+        authorDiv.appendChild(authorImage)
     let authorName = document.createElement('h1')
         authorName.innerText = author["name"]
-        document.getElementById("author-display").appendChild(authorName)
+        authorDiv.appendChild(authorName)
     switch (author["birth_date"]) {
         case undefined:
             if (author["death_date"] === true) {
@@ -125,11 +128,11 @@ function appendAuthorPage(author) {
             switch (author["death_date"]) {
             case undefined:
                 authorBirthdate.innerText = `Born: ${author["birth_date"]}`
-                document.getElementById("author-display").appendChild(authorBirthdate)
+                authorDiv.appendChild(authorBirthdate)
                 break;
             default:
                 authorBirthdate.innerText = `${author["birth_date"]} - ${author["death_date"]}`
-                document.getElementById("author-display").appendChild(authorBirthdate)
+                authorDiv.appendChild(authorBirthdate)
             }
         }
     switch (author["bio"]) {
@@ -138,13 +141,13 @@ function appendAuthorPage(author) {
         default:
             let authorBio = document.createElement('p')
             authorBio.innerText = author["bio"]
-            document.getElementById("author-display").appendChild(authorBio)
+            authorDiv.appendChild(authorBio)
     }
     let booksList = document.createElement('button')
         booksList.innerText = 'Books'
         booksList.authorId = author["key"]
         booksList.addEventListener('click', fetchAuthorBooks)
-        document.getElementById("author-display").appendChild(booksList)
+        authorDiv.appendChild(booksList)
 }
 
 
