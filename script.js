@@ -225,13 +225,16 @@ function appendBook(book) {
             bookDescription.innerText = book["description"]["value"]
             bookDisplay.appendChild(bookDescription)
     }
-    let bookAuthor = document.createElement('p')
-        bookAuthor.innerText = 'Go to author'
+    let bookAuthor = document.createElement('button')
+        bookAuthor.innerText = 'Author'
         bookAuthor.authorId = book["authors"][0]["author"]["key"]
         bookAuthor.addEventListener('click', goToAuthor)
         bookDisplay.appendChild(bookAuthor)
 }
 
+
+
+// When looking at a book, a button will call this function to fetch the author and append it
 function goToAuthor(event) {
     document.getElementById("search-results").innerHTML = ""
     document.getElementById("display").innerHTML = ""
