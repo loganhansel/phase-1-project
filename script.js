@@ -15,7 +15,7 @@ document.getElementById("search-form").addEventListener('submit', function(event
 function fetchBooks(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
-    document.getElementById("author-display").innerHTML = ""
+    document.getElementById("display").innerHTML = ""
     fetch(`https://openlibrary.org/search.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
@@ -30,7 +30,7 @@ function fetchBooks(event) {
 function fetchAuthors(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
-    document.getElementById("author-display").innerHTML = ""
+    document.getElementById("display").innerHTML = ""
     fetch(`https://openlibrary.org/search/authors.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
@@ -107,7 +107,7 @@ function findAuthorPage(event) {
 
 // When specific author data is fetched from API, this appends the author's profile to the webpage
 function appendAuthorPage(author) {
-    let authorDiv = document.getElementById("author-display")
+    let authorDiv = document.getElementById("display")
     authorDiv.innerHTML = ""
     let authorImage = document.createElement("img")
         authorImage.src = `https://covers.openlibrary.org/a/olid/${author["key"].slice(9)}-L.jpg`
@@ -155,7 +155,7 @@ function appendAuthorPage(author) {
 function fetchAuthorBooks(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
-    document.getElementById("author-display").innerHTML = ""
+    document.getElementById("display").innerHTML = ""
     fetch(`https://openlibrary.org${event.currentTarget.authorId}/works.json`)
     .then(response => response.json())
     .then(function(data) {
@@ -167,7 +167,6 @@ function fetchAuthorBooks(event) {
 
 // When books are fetched from the API, this appends them to a list
 function appendBookData(book) {
-    console.log(book)
     let bookItem = document.createElement('li')
     let bookImage = document.createElement('img')
         bookImage.src = `https://covers.openlibrary.org/b/id/${book["cover_i"]}-M.jpg`
@@ -202,7 +201,7 @@ function appendBookData(book) {
 function fetchBookDetails(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
-    document.getElementById("author-display").innerHTML = ""
+    document.getElementById("display").innerHTML = ""
     fetch(`https://openlibrary.org${event.currentTarget.bookId}.json`)
     .then(response => response.json())
     .then(data => appendBook(data))
@@ -213,4 +212,8 @@ function fetchBookDetails(event) {
 // Once a book's data has been fetched, this will append all it's details to the webpage
 function appendBook(book) {
     console.log(book)
+    let bookDisplay = document.getElementById('display')
+    let bookImage = document.createElement('img')
+        bookImage.src = `https://covers.openlibrary.org/b/id/${book["covers"][0]}-M.jpg`
+        bookDisplay.appendChild(bookImage)
 }
