@@ -1,5 +1,6 @@
 // Search bar events
 document.getElementById("search-form").addEventListener('submit', function(event){
+    event.preventDefault()
     let selectedType = document.getElementById("selectedType").value
     if (selectedType === "author") {
         fetchAuthors(event)
@@ -7,6 +8,7 @@ document.getElementById("search-form").addEventListener('submit', function(event
         fetchBooks(event)
     }
 })
+
 
 
 // Search bar fetches books from API
@@ -18,6 +20,7 @@ function fetchBooks(event) {
     .then(response => response.json())
     .then(function(data){
         console.log(data)
+        data["docs"].forEach(book => appendBookData(book))
     })
     document.getElementById("search-form").reset()
 }
@@ -32,8 +35,8 @@ function fetchAuthors(event) {
     fetch(`https://openlibrary.org/search/authors.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
-        let authorData = data["docs"]
-        authorData.forEach(element => appendAuthors(element))
+        console.log(data)
+        data["docs"].forEach(element => appendAuthors(element))
     })
     document.getElementById("search-form").reset()
 }
@@ -51,6 +54,9 @@ function parseName(name) {
 // When authors are fetched from API, this appends the results in a list
 function appendAuthors(authorData) {
     let authorItem = document.createElement('li')
+    let authorImage = document.createElement('img')
+        authorImage.src = `https://covers.openlibrary.org/a/olid/${authorData["key"]}-M.jpg`
+        authorItem.appendChild(authorImage)
     let authorName = document.createElement('h2')
         authorName.innerText = authorData["name"]
         authorItem.appendChild(authorName)
@@ -179,6 +185,8 @@ function fetchBookDetails(event) {
     .then(response => response.json())
     .then(data => appendBook(data))
 }
+
+
 
 // Once a book's data has been fetched, this will append all it's details to the webpage
 function appendBook(book) {
