@@ -7,7 +7,11 @@
     </head>
     <body>
         <form action="" method="get" id="search-form">
-            <label for="name">Please enter an author's name: </label>
+            <label for="name">Search for: </label>
+            <select name="select-type" id="select-type">
+                <option value="author">Author</option>
+                <option value="book">Book</option>
+            </select>
             <input type="text" name="name" id="name">
             <input type="submit" value="Search">
         </form>
