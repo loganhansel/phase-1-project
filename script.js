@@ -115,6 +115,7 @@ function appendAuthorPage(author) {
     }
     let booksList = document.createElement('button')
         booksList.innerText = 'Books'
+        booksList.authorId = author["key"]
         booksList.addEventListener('click', fetchAuthorBooks)
         document.getElementById("author-display").appendChild(booksList)
 }
@@ -122,6 +123,11 @@ function appendAuthorPage(author) {
 
 
 // FETCH BOOKS
-function fetchAuthorBooks() {
-
+function fetchAuthorBooks(event) {
+    event.preventDefault()
+    document.getElementById("search-results").innerHTML = ""
+    document.getElementById("author-display").innerHTML = ""
+    fetch(`https://openlibrary.org${event.currentTarget.authorId}/works.json`)
+    .then(response => response.json())
+    .then(data => console.log(data))
 }
