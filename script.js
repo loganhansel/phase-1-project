@@ -1,5 +1,26 @@
 // Search bar events
-document.getElementById("search-form").addEventListener('submit', fetchAuthors)
+document.getElementById("search-form").addEventListener('submit', function(event){
+    let selectedType = document.getElementById("selectedType").value
+    if (selectedType === "author") {
+        fetchAuthors(event)
+    } if (selectedType === "book") {
+        fetchBooks(event)
+    }
+})
+
+
+// Search bar fetches books from API
+function fetchBooks(event) {
+    event.preventDefault()
+    document.getElementById("search-results").innerHTML = ""
+    document.getElementById("author-display").innerHTML = ""
+    fetch(`https://openlibrary.org/search.json?q=${parseName(event.target.name.value)}`)
+    .then(response => response.json())
+    .then(function(data){
+        console.log(data)
+    })
+    document.getElementById("search-form").reset()
+}
 
 
 
@@ -143,14 +164,14 @@ function appendBookData(book) {
         bookName.innerText = book["title"]
         bookItem.appendChild(bookName)
     bookItem.bookId = book["key"]
-    bookItem.addEventListener('click', fetchBook)
+    bookItem.addEventListener('click', fetchBookDetails)
     document.getElementById("search-results").appendChild(bookItem)
 }
 
 
 
 // When a specific book is chosen from the list, will fetch it's data from the API
-function fetchBook(event) {
+function fetchBookDetails(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
     document.getElementById("author-display").innerHTML = ""
