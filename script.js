@@ -219,5 +219,13 @@ function appendBook(book) {
     let bookTitle = document.createElement('h1')
         bookTitle.innerText = book["title"]
         bookDisplay.appendChild(bookTitle)
+    switch (book["description"]["value"]) {
+        case undefined:
+            break;
+        default:
+        let bookDescription = document.createElement('p')
+            bookDescription.innerText = book["description"]["value"]
+            bookDisplay.appendChild(bookDescription)
+    }
 }
 
