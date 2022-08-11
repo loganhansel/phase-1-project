@@ -107,7 +107,6 @@ function findAuthorPage(event) {
 
 // When specific author data is fetched from API, this appends the author's profile to the webpage
 function appendAuthorPage(author) {
-    console.log(author)
     let authorDiv = document.getElementById("author-display")
     authorDiv.innerHTML = ""
     let authorImage = document.createElement("img")
@@ -168,10 +167,19 @@ function fetchAuthorBooks(event) {
 
 // When books are fetched from the API, this appends them to a list
 function appendBookData(book) {
+    console.log(book)
     let bookItem = document.createElement('li')
     let bookName = document.createElement('h2')
         bookName.innerText = book["title"]
         bookItem.appendChild(bookName)
+    switch (book["author_name"]) {
+        case undefined:
+            break;
+        default:
+            let bookAuthor = document.createElement('p')
+            bookAuthor.innerText = `Author: ${book["author_name"]}`
+            bookItem.appendChild(bookAuthor)
+    }
     bookItem.bookId = book["key"]
     bookItem.addEventListener('click', fetchBookDetails)
     document.getElementById("search-results").appendChild(bookItem)
