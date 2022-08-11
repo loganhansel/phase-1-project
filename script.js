@@ -84,8 +84,27 @@ function findAuthorPage(event) {
 function appendAuthorPage(author) {
     document.getElementById("author-display").innerHTML = ""
     let authorName = document.createElement('h1')
-    authorName.innerText = author["name"]
-    document.getElementById("author-display").appendChild(authorName)
+        authorName.innerText = author["name"]
+        document.getElementById("author-display").appendChild(authorName)
+    switch (author["birth_date"]) {
+        case undefined:
+            if (author["death_date"] === true) {
+                let authorBirthdate = document.createElement('p')
+                authorBirthdate.innerText = `Died: ${author["death_date"]}`
+            }
+            break;
+        default:
+            let authorBirthdate = document.createElement('p')
+            switch (author["death_date"]) {
+            case undefined:
+                authorBirthdate.innerText = `Born: ${author["birth_date"]}`
+                document.getElementById("author-display").appendChild(authorBirthdate)
+                break;
+            default:
+                authorBirthdate.innerText = `${author["birth_date"]} - ${author["death_date"]}`
+                document.getElementById("author-display").appendChild(authorBirthdate)
+            }
+        }
     switch (author["bio"]) {
         case undefined:
             break;
