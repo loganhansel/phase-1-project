@@ -214,6 +214,10 @@ function appendBook(book) {
     console.log(book)
     let bookDisplay = document.getElementById('display')
     let bookImage = document.createElement('img')
-        bookImage.src = `https://covers.openlibrary.org/b/id/${book["covers"][0]}-M.jpg`
+        bookImage.src = `https://covers.openlibrary.org/b/id/${book["covers"][0]}-L.jpg`
         bookDisplay.appendChild(bookImage)
+    let bookTitle = document.createElement('h1')
+        bookTitle.innerText = book["title"]
+        bookDisplay.appendChild(bookTitle)
 }
+
