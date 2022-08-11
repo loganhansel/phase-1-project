@@ -1,9 +1,9 @@
-// EVENT-LISTENERS
+// Search bar events
 document.getElementById("search-form").addEventListener('submit', fetchAuthors)
 
 
 
-// FETCH AUTHOR LIST FROM API
+// Search bar fetches authors from API
 function fetchAuthors(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
@@ -19,7 +19,7 @@ function fetchAuthors(event) {
 
 
 
-// CONVERTS USER SEARCH INTO QUERY STRING
+// Turns search results into usable query strings
 function parseName(name) {
     let parsedName = encodeURIComponent(name)
     return parsedName
@@ -27,10 +27,10 @@ function parseName(name) {
 
 
 
-// APPENDS AUTHOR SEARCH RESULTS TO WEBPAGE
+// When authors are fetched from API, this appends the results in a list
 function appendAuthors(authorData) {
     let authorItem = document.createElement('li')
-    let authorName = document.createElement('h3')
+    let authorName = document.createElement('h2')
         authorName.innerText = authorData["name"]
         authorItem.appendChild(authorName)
     switch (authorData["birth_date"]) {
@@ -69,7 +69,7 @@ function appendAuthors(authorData) {
 
 
 
-// FETCH AUTHOR PAGE FOR LIST 'CLICK' EVENT
+// Clicking on an author from the list fetches specific author data from API
 function findAuthorPage(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
@@ -80,7 +80,7 @@ function findAuthorPage(event) {
 
 
 
-// APPENDS AUTHOR DATA TO WEBPAGE
+// When specific author data is fetched from API, this appends the author's profile to the webpage
 function appendAuthorPage(author) {
     document.getElementById("author-display").innerHTML = ""
     let authorName = document.createElement('h1')
@@ -122,12 +122,23 @@ function appendAuthorPage(author) {
 
 
 
-// FETCH BOOKS
+// When 'books' button is pressed on an author's profile this fetches the list from the API
 function fetchAuthorBooks(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
     document.getElementById("author-display").innerHTML = ""
     fetch(`https://openlibrary.org${event.currentTarget.authorId}/works.json`)
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(function(data) {
+        data["entries"].forEach(book => appendBookData(book))
+    })
+}
+
+// When books are fetched from the API, this appends them to a list
+function appendBookData(book) {
+    let bookItem = document.createElement('li')
+    let bookName = document.createElement('h2')
+        bookName.innerText = book["title"]
+        bookItem.appendChild(bookName)
+    document.getElementById("search-results").appendChild(bookItem)
 }
