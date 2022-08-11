@@ -47,8 +47,6 @@ function parseName(name) {
     return parsedName
 }
 
-
-
 // When authors are fetched from API, this appends the results in a list
 function appendAuthors(authorData) {
     let authorItem = document.createElement('li')
@@ -227,5 +225,17 @@ function appendBook(book) {
             bookDescription.innerText = book["description"]["value"]
             bookDisplay.appendChild(bookDescription)
     }
+    let bookAuthor = document.createElement('p')
+        bookAuthor.innerText = 'Go to author'
+        bookAuthor.authorId = book["authors"][0]["author"]["key"]
+        bookAuthor.addEventListener('click', goToAuthor)
+        bookDisplay.appendChild(bookAuthor)
 }
 
+function goToAuthor(event) {
+    document.getElementById("search-results").innerHTML = ""
+    document.getElementById("display").innerHTML = ""
+    fetch(`https://openlibrary.org${event.target.authorId}.json`)
+    .then(response => response.json())
+    .then(data => appendAuthorPage(data))
+}
