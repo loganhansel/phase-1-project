@@ -7,6 +7,7 @@ document.getElementById("search-form").addEventListener('submit', fetchAuthors)
 function fetchAuthors(event) {
     event.preventDefault()
     document.getElementById("search-results").innerHTML = ""
+    document.getElementById("author-display").innerHTML = ""
     fetch(`https://openlibrary.org/search/authors.json?q=${parseName(event.target.name.value)}`)
     .then(response => response.json())
     .then(function(data){
@@ -81,5 +82,16 @@ function findAuthorPage(event) {
 
 // APPENDS AUTHOR DATA TO WEBPAGE
 function appendAuthorPage(author) {
-    console.log(author)
+    document.getElementById("author-display").innerHTML = ""
+    let authorName = document.createElement('h1')
+    authorName.innerText = author["name"]
+    document.getElementById("author-display").appendChild(authorName)
+    switch (author["bio"]) {
+        case undefined:
+            break;
+        default:
+            let authorBio = document.createElement('p')
+            authorBio.innerText = author["bio"]
+            document.getElementById("author-display").appendChild(authorBio)
+    }
 }
