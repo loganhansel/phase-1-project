@@ -1,0 +1,39 @@
+body {
+    background-color: #c0cfb2;
+}
+
+form {
+    text-align: center;
+}
+
+input {
+    
+}
+
+label {
+    
+}
+
+ul#search-results {
+    list-style: none;
+    list-style-position: inside;
+}
+
+ul#search-results li {
+    background-color: #f1ebe1;
+    border-style: solid;
+    border-color: #f1ebe1;
+    width: 50%;
+    margin: 5px 5px 5px 5px;
+    border-radius: 10px;
+    float: left;
+}
+
+ul#search-results li img {
+    float: left;
+    padding: 10px;
+}
+
+div#display {
+    background-color: #f1ebe1;
+}
